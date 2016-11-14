@@ -12,5 +12,19 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('student.index');
 });
+Route::get('/guest', function () {
+    return view('guest.index');
+});
+
+Route::get('/admin',function (){
+    return view('admin.index');
+});
+Route::get('/student',function (){
+    return view('student.profile');
+});
+Route::get('/find',function (){
+    return view('student.findteacher');
+});
+Route::get('/test','TestController@index');

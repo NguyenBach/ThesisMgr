@@ -1,0 +1,54 @@
+/*  GUEST STYLE   */
+
+.introduction{
+    float:left;
+    background-color: #fff;
+    padding: 25px 20px 20px 20px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.introduction img{
+    float: left;
+    width: 50%;
+}
+
+.intro{
+    float: left;
+    width: 50%;
+    padding-left: 15px;
+}
+
+.browse{
+    margin-top: 25px;
+    padding-top: 25px;
+    /*background-color: #fff;*/
+}
+
+.browse .col-md-4{
+    padding: 0;
+}
+
+.col{
+    background-color: #fff;
+    margin-right: 15px;
+    width: 32.3%;
+
+}
+.col-header{
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-bottom: 3px solid #33b5e5;
+    margin-bottom: 15px;
+}
+.col-header h3{
+    padding: 0;
+}
+.col-content{
+    margin: 15px;
+}
+.teacher-img{
+    text-align: center;
+    padding: 15px;
+}
+

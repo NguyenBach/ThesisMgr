@@ -1,0 +1,137 @@
+/*@import url(https://fonts.googleapis.com/css?family=Roboto:300);*/
+
+#over {
+    display: none;
+    background: #000;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.8;
+    z-index: 999;
+}
+.login-page {
+    width: 360px;
+    padding: 8% 0 0;
+    margin: auto;
+
+}
+.form-login {
+    top: 10%;
+    position: fixed;
+    z-index: 99999;
+    background: #FFFFFF;
+    max-width: 360px;
+    margin: 0 auto 100px;
+    padding: 45px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+.form-login input {
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #f2f2f2;
+    width: 100%;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+.form-login button {
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background: #33b5e5;
+    width: 100%;
+    border: 0;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 14px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
+}
+.form-login button:hover,.form button:active,.form button:focus {
+    background: #33b5e5;
+}
+.form-login .message {
+    margin: 15px 0 0;
+    color: #b3b3b3;
+    font-size: 12px;
+}
+.form-login .message a {
+    color:#33b5e5;
+    text-decoration: none;
+}
+body{
+    background-color: #EEEEEE;
+}
+.navbar-inverse{
+    background-color: #fff;
+    border-color: #aaaaaa;
+}
+.navbar-fixed-top{
+    top: 139px;
+}
+.navbar-inverse .navbar-nav > li > a{
+    color: #000;
+}
+.navbar-inverse .navbar-nav > li > a:hover{
+    color: #33b5e5;
+    border-bottom: #33b5e5 3px solid;
+}
+.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:focus, .navbar-inverse .navbar-nav > .active > a:hover{
+    background-color: #fff;
+    color: #33b5e5;
+    border-bottom: #33b5e5 3px solid;
+}
+.navbar{
+    border: 0;
+    margin-bottom: 0;
+    border-top: #eee 1px solid;
+    border-bottom: #eee 1px solid;
+    border-radius: 0;
+}
+.header{
+    background-color: #fff;
+    z-index: 999;
+}
+.site-logo  img{
+    float: left;
+
+
+}
+.site-logo  div{
+    float: left;
+
+}
+.clearfix{
+    clear: both;
+}
+
+.footer{
+    margin-top: 25px;
+    background-color: #fff;
+    border-top: 1px solid #eee;
+    height: 50px;
+}
+
+.footer .container{
+    margin-top: 15px;
+}
+
+.footer-left {
+    float: left;
+}
+.footer-left a{
+    cursor: pointer;
+}
+.footer-right{
+    float: right;
+}
+.footer-right h5{
+    padding: 0;
+    margin:0;
+}

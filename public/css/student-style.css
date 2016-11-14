@@ -1,0 +1,110 @@
+.notification{
+    background-color: #fff;
+    margin-top: 25px;
+}
+.notification-header{
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-bottom: 3px solid #33b5e5;
+    margin-bottom: 15px;
+}
+
+.anotification{
+    border-bottom: 1px solid #EEEEEE;
+
+
+}
+.anotification .detail{
+    padding: 30px 15px 30px 15px;
+}
+
+.anotification :hover{
+    background-color: #f9f9f9;
+}
+
+.dashboard{
+    width: 73%;
+    margin-top: 25px;
+    margin-right: 2%;
+    background-color: #fff;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.detai h3{
+    padding-bottom: 10px;
+    border-bottom: 1px #eee solid;
+}
+
+.hoso{
+    padding-top: 15px;
+}
+.hoso h3{
+    padding-bottom: 10px;
+    border-bottom: 1px #eee solid;
+}
+
+.profile{
+    padding-top: 25px;
+    padding-bottom:25px;
+}
+.avatar{
+    text-align: center;
+    padding-right: 25px;
+}
+.avatar button{
+    margin-top: 15px;
+}
+.avatar img{
+    width: 150px;
+    margin: auto;
+    padding-bottom: 25px;
+}
+.profile-infomation h2 {
+    padding-bottom: 15px;
+    border-bottom: 1px solid #aaa;
+}
+.profile-infomation button{
+    margin-top: 15px;
+}
+.search-teacher{
+    display: inline;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.search-teacher input{
+    width: 70%;
+    display: inline;
+}
+.search-teacher button{
+    width: 20%;
+}
+
+.all-teacher{
+    margin-top: 25px;
+}
+.all-teacher .row {
+    padding-bottom: 25px;
+    padding-top: 25px;
+}
+.all-teacher .col-md-4{
+    text-align: center;
+    cursor: pointer;
+}
+.all-teacher .teacher-row :hover{
+   background-color: #eee;
+}
+.all-teacher .col-md-4 img{
+    margin: auto;
+}
+.filter select{
+    width: 20%;
+    display: inline;
+}
+
+.filter-box{
+    border: 1px solid #EEEEEE;
+}
+#donvi,#linhvuc{
+    display: none;
+}
