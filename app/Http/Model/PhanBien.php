@@ -14,4 +14,5 @@ use Illuminate\Database\Eloquent\Model;
 class PhanBien extends Model
 {
     protected $table = "phanbien";
+    public $timestamps = false;
 }

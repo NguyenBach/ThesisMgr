@@ -15,6 +15,7 @@ class Kernel extends HttpKernel
      */
     protected $middleware = [
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+//        \App\Http\Middleware\LoginMiddleware::class,
     ];
 
     /**
@@ -30,6 +31,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\LoginMiddleware::class,
         ],
 
         'api' => [
@@ -50,7 +52,13 @@ class Kernel extends HttpKernel
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
-        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+       // 'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'session' => \App\Http\Middleware\LoginMiddleware::class,
+        'check'=> \App\Http\Middleware\Session::class,
+        'guest'=>\App\Http\Middleware\Guest::class,
+        'student'=>\App\Http\Middleware\StudentMiddleware::class,
+        'lecturer'=>\App\Http\Middleware\Lecturer::class,
+        'admin'=>\App\Http\Middleware\Admin::class,
     ];
 }

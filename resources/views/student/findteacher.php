@@ -3,14 +3,16 @@
 <head>
     <title>Khoa luan</title>
     <meta charset="utf-8"/>
-    <link rel="stylesheet" href="public/css/bootstrap.min.css">
-    <link rel="stylesheet" href="public/font-awesome/css/font-awesome.css">
+    <meta id="id" content="<?php echo session('userid')?>"/>
+    <meta id="token" content="<?php csrf_token() ?>"/>
+    <link rel="stylesheet" href="/public/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/font-awesome/css/font-awesome.css">
     <!--        all page style-->
-    <link rel="stylesheet" href="public/css/style.css">
+    <link rel="stylesheet" href="/public/css/style.css">
     <!--        student page style-->
-    <link rel="stylesheet" href="public/css/student-style.css">
-    <script src="public/js/jquery-3.1.1.min.js"></script>
-    <script src="public/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/public/css/student-style.css">
+    <script src="/public/js/jquery-3.1.1.min.js"></script>
+    <script src="/public/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -30,15 +32,14 @@
     <nav class="navbar navbar-inverse  clearfix">
         <div class="container">
             <ul class="nav navbar-nav">
-                <li><a href="/">Home</a></li>
-                <li class="active"><a href="/find">Tra cứu giảng viên </a></li>
-                <li><a href="#">Đề tài</a></li>
-                <li><a href="#">Hồ sơ</a></li>
+                <li><a href="/student">Home</a></li>
+                <li class="active"><a href="/student/findteacher">Tra cứu giảng viên </a></li>
+                <li><a href="/student/topic">Đề tài</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
 
-                <li><a href="/student">Thông tin cá nhân</a></li>
-                <li><a href="javascript:;">Logout</a></li>
+                <li><a href="/student/profile">Thông tin cá nhân</a></li>
+                <li><a href="javascript:logout()">Logout</a></li>
 
             </ul>
 
@@ -48,9 +49,10 @@
 <div class="container">
     <div class="row">
         <div class="col-md-9 dashboard">
-            <div class="row search-teacher form-group">
+            <div class="search-teacher form-group">
                 <input type="text" placeholder="Tìm giảng viên" class="form-control">
                 <button class="btn btn-default">Tìm kiếm</button>
+                <hr style="margin-top: 15px;margin-bottom: 0">
             </div>
             <div class=" row all-teacher">
                 <div class="col-md-12">
@@ -64,145 +66,30 @@
                     </div>
                     <div class="row filter-box" id="donvi">
                         <div class="col-md-3">
-                            <h5>Khoa</h5>
-                            <div class="radio">
-                                <label><input type="radio" name="khoa">CNTT</label>
-                            </div>
-                            <div class="radio">
-                                <label><input type="radio"  name="khoa">DTVT</label>
-                            </div>
-                            <div class="radio ">
-                                <label><input type="radio"  name="khoa" >VLKT</label>
-                            </div>
+                            <h5>Khoa</h5><br>
+                            <div id="khoa"></div>
+                        </div>
+                        <div class="col-md-3" >
+                            <h5 >Bộ môn</h5>
+                            <div id="bomon"></div>
                         </div>
                         <div class="col-md-3">
-                            <h5>Bộ môn</h5>
-                            <div class="radio">
-                                <label><input type="radio"  name="bomon">CNTT</label>
-                            </div>
-                            <div class="radio">
-                                <label><input type="radio" name="bomon">DTVT</label>
-                            </div>
-                            <div class="radio ">
-                                <label><input type="radio" name="bomon" >VLKT</label>
-                            </div>
+                            <h5 >Phòng thí nghiệm</h5>
+                            <div id="ptn"></div>
                         </div>
                         <div class="col-md-3">
-                            <h5>Phòng thí nghiệm</h5>
-                            <div class="radio">
-                                <label><input type="radio" name="ptn">CNTT</label>
-                            </div>
-                            <div class="radio">
-                                <label><input type="radio" name="ptn">DTVT</label>
-                            </div>
-                            <div class="radio ">
-                                <label><input type="radio" name="ptn" >VLKT</label>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <h5>Văn phòng khoa</h5>
-                            <div class="radio">
-                                <label><input type="radio" name="vpk">CNTT</label>
-                            </div>
-                            <div class="radio">
-                                <label><input type="radio" name="vpk" >DTVT</label>
-                            </div>
-                            <div class="radio">
-                                <label><input type="radio" name="vpk" >VLKT</label>
-                            </div>
+                            <h5 >Văn phòng khoa</h5>
+                            <div id="vpk"></div>
                         </div>
                     </div>
-                    <div class="row filter-box" id="linhvuc">
-                        <div class="col-md-3">
-                            <h5>Khoa</h5>
-                            <div class="radio">
-                                <label><input type="radio" name="khoa">CNTT</label>
-                            </div>
-                            <div class="radio">
-                                <label><input type="radio"  name="khoa">DTVT</label>
-                            </div>
-                            <div class="radio ">
-                                <label><input type="radio"  name="khoa" >VLKT</label>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <h5>Bộ môn</h5>
-                            <div class="radio">
-                                <label><input type="radio"  name="bomon">CNTT</label>
-                            </div>
-                            <div class="radio">
-                                <label><input type="radio" name="bomon">DTVT</label>
-                            </div>
-                            <div class="radio ">
-                                <label><input type="radio" name="bomon" >VLKT</label>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <h5>Phòng thí nghiệm</h5>
-                            <div class="radio">
-                                <label><input type="radio" name="ptn">CNTT</label>
-                            </div>
-                            <div class="radio">
-                                <label><input type="radio" name="ptn">DTVT</label>
-                            </div>
-                            <div class="radio ">
-                                <label><input type="radio" name="ptn" >VLKT</label>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <h5>Văn phòng khoa</h5>
-                            <div class="radio">
-                                <label><input type="radio" name="vpk">CNTT</label>
-                            </div>
-                            <div class="radio">
-                                <label><input type="radio" name="vpk" >DTVT</label>
-                            </div>
-                            <div class="radio">
-                                <label><input type="radio" name="vpk" >VLKT</label>
-                            </div>
+                    <div class=" row filter-box" id="linhvuc">
+                        <div class="col-md-3" id="linhvuc-checkbox">
+                            <label><input type="checkbox" value="all"  checked id="all-checkbox"> Tất cả  </label>
                         </div>
                     </div>
+
                     <div class="row teacher-row">
-                        <div class="col-md-4">
-                            <img src="public/img/139.png" alt="" class="img-responsive">
-                            <h4>Nguyễn Quang Bách</h4>
-                        </div>
-                        <div class="col-md-4">
-                            <img src="public/img/139.png" alt="" class="img-responsive">
-                            <h4>Nguyễn Quang Bách</h4>
-                        </div>
-                        <div class="col-md-4">
-                            <img src="public/img/139.png" alt="" class="img-responsive">
-                            <h4>Nguyễn Quang Bách</h4>
-                        </div>
-                    </div>
-                    <div class="row teacher-row">
-                        <div class="col-md-4">
-                            <img src="public/img/139.png" alt="" class="img-responsive">
-                            <h4>Nguyễn Quang Bách</h4>
-                        </div>
-                        <div class="col-md-4">
-                            <img src="public/img/139.png" alt="" class="img-responsive">
-                            <h4>Nguyễn Quang Bách</h4>
-                        </div>
-                        <div class="col-md-4">
-                            <img src="public/img/139.png" alt="" class="img-responsive">
-                            <h4>Nguyễn Quang Bách</h4>
-                        </div>
-                    </div>
-                    <div class="row teacher-row">
-                        <div class="col-md-4">
-                            <img src="public/img/139.png" alt="" class="img-responsive">
-                            <h4>Nguyễn Quang Bách</h4>
-                        </div>
-                        <div class="col-md-4">
-                            <img src="public/img/139.png" alt="" class="img-responsive">
-                            <h4>Nguyễn Quang Bách</h4>
-                        </div>
-                        <div class="col-md-4">
-                            <img src="public/img/139.png" alt="" class="img-responsive">
-                            <h4>Nguyễn Quang Bách</h4>
-                        </div>
+
                     </div>
                 </div>
 
@@ -241,6 +128,8 @@
 </div>
 
 
+
+
 <footer class="footer">
     <div class="container">
         <div class="footer-left">
@@ -253,8 +142,71 @@
         </div>
     </div>
 </footer>
-<script src="public/js/allpage.js"></script>
-<script src="public/js/student-js.js"></script>
+<script src="/public/js/allpage.js"></script>
+<script src="/public/js/student-js.js"></script>
+<script>
+    $(document).ready(function () {
+        var linhvuc = getData('/field');
+        $.each(linhvuc,function (key, value) {
+            $("#linhvuc-checkbox").append('<label><input type="checkbox" name="linhvuc" value="'+value.id+'" data-filter="field" >  '+value.name+'</label>');
+        });
+        var khoa = getData('/faculty');
+        $.each(khoa,function (key, value) {
+            $('<label><input type="radio" name="khoa" value="'+value.id+'">'+value.name+'</label><br>').insertAfter('#khoa');
+        });
+        $('<label id="all"><input type="radio" name="khoa" value="all" checked>Tất cả</label><br>').insertAfter('#khoa');
+        var giangvien = getData('/teacher');
+        $.each(giangvien,function (key, value) {
+            showUnitTeacher(value);
+        });
+        $('input[name="khoa"]').on('change',function () {
+            var id = $(this).val();
+            if(id == 'all'){
+                $('.teacher-row').empty();
+                $("#bomon").empty();
+                $('#vpk').empty();
+                $('#ptn').empty();
+                var teacher = getData('/teacher');
+                $.each(teacher,function (key, value) {
+                    showUnitTeacher(value);
+                });
+                return;
+            }
+            var subject = getData('/subject/'+id);
+            var office = getData('/office/'+id);
+            var laboratory = getData('/laboratory/'+id);
+            var teacher = getData('/teacherunitfilter/'+id);
+            $('.teacher-row').empty();
+            $("#bomon").empty();
+            $('#vpk').empty();
+            $('#ptn').empty();
+            createSubFilter('bomon',subject);
+            createSubFilter('vpk',office);
+            createSubFilter('ptn',laboratory);
+            $.each(teacher,function (key, value) {
+                showUnitTeacher(value[0]);
+            })
+        });
+        $('#all-checkbox').on('change',function () {
+            if($(this).is(":checked")){
+                $('input[name="linhvuc"]').prop('checked',false);
+                var teacher = getData('/teacher');
+                $.each(teacher,function (key, value) {
+                    showUnitTeacher(value);
+                });
+            }
+        })
+        $('input[name="linhvuc"]').on('change',function () {
+            if($(this).is(":checked")){
+                var id = $(this).val();
+                $('#all-checkbox').prop('checked',false);
+                filter(this);
+            }
+
+        })
+
+    });
+</script>
 </body>
 </html>
 

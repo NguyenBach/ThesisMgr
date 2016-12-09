@@ -29,6 +29,7 @@
     background-color: #fff;
     padding-left: 25px;
     padding-right: 25px;
+    padding-top: 25px;
 }
 
 .detai h3{
@@ -69,7 +70,7 @@
 }
 .search-teacher{
     display: inline;
-    padding-top: 15px;
+    margin-top: 15px;
     padding-bottom: 15px;
 }
 .search-teacher input{
@@ -81,7 +82,7 @@
 }
 
 .all-teacher{
-    margin-top: 25px;
+
 }
 .all-teacher .row {
     padding-bottom: 25px;
@@ -107,4 +108,40 @@
 }
 #donvi,#linhvuc{
     display: none;
+}
+
+
+
+.detai-header{
+    padding-bottom: 50px;
+}
+
+.detai-header h1{
+    float: left;
+}
+.detai-status{
+    float: right;
+}
+
+.detaidk{
+    margin-top: 30px;
+    margin-bottom: 25px;
+}
+.add-dialog{
+    top: 10%;
+    left: 30%;
+    position: fixed;
+    z-index: 99999;
+    background: #FFFFFF;
+    max-width: 450px;
+    margin: 0 auto 100px;
+    padding: 45px;
+    text-align: left;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+.add-dialog label{
+    width: 150px;
+}
+.add-dialog input[type="text"]{
+    width: 200px;
 }

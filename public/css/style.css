@@ -135,3 +135,39 @@ body{
     padding: 0;
     margin:0;
 }
+.left{
+    float: left;
+}
+.right{
+    float: right;
+}
+
+.one-teacher{
+    width: 50%;
+    background-color: #fff;
+    margin: auto;
+    display: none;
+    z-index: 99999;
+    position: fixed;
+    top: 10%;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    left: 25%;
+
+}
+
+.one-teacher .col-md-4{
+    padding: 15px;
+    width: 32%;
+    margin-left: 1%;
+
+}
+.one-teacher .col-md-4 img{
+    margin: auto;
+}
+.poiter{
+    cursor: pointer;
+}
+.pager .active > a{
+    background-color: red;
+    border-color: red;
+}
