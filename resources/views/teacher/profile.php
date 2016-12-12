@@ -54,8 +54,8 @@
         <div class="col-md-9 dashboard">
            <div class="row profile">
                <div class="col-md-3 avatar">
-                   <img src="/public/img/uet_logo.png" alt="" class="img-responsive">
-                   <h4>Nguyễn Quang Bách</h4>
+                   <img src="/public/img/uet_logo.png" alt="" class="img-responsive" id="avatar">
+                   <h4 id="img-fullname">Nguyễn Quang Bách</h4>
                    <button class="btn btn-danger" type="button" onclick="showDialog(createChangeAvatarDialog)">Thay ảnh</button>
                </div>
                <div class="col-md-9 profile-infomation">

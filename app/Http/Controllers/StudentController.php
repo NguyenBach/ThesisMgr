@@ -11,6 +11,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Model\Course;
 use App\Http\Model\Student;
+use App\Http\Model\StudentFile;
+use App\Http\Model\Topic;
 use App\Http\Model\TrainingProgram;
 use App\Http\Model\User;
 use Illuminate\Http\Request;
@@ -94,6 +96,14 @@ class StudentController extends Controller
         $studentCode = $request->input('ma');
         $del = Student::where('studentCode',$studentCode)->first();
         if(isset($del)){
+            $topics = Topic::where('student',$studentCode)->get();
+            foreach ($topics as $topic){
+                $topic->delete();
+            }
+            $studentfiles = StudentFile::where('student',$studentCode)->get();
+            foreach ($studentfiles as $studentfile){
+                $studentfile->delete();
+            }
             $del->delete();
         }else{
             return response()->json(['result'=>false]);
@@ -116,6 +126,21 @@ class StudentController extends Controller
         }
         $student->status = $status;
         $result = $student->save();
+        return response()->json(['result'=>$result]);
+    }
+    public function changeAvatar(Request $request){
+        $this->validate($request, [
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'id'=>'required'
+        ]);
+        $image = $request->file('avatar');
+        $filename = time().'.'.$image->getClientOriginalExtension();
+        $destinationPath = storage_path('avatar');
+        $image->move($destinationPath, $filename);
+        $teacherCode = $request->input('id');
+        $teacher = Student::where('studentCode',$teacherCode)->first();
+        $teacher->imgurl = '/storage/avatar/'.$filename;
+        $result = $teacher->save();
         return response()->json(['result'=>$result]);
     }
 }

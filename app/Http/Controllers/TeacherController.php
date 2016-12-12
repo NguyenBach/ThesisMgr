@@ -13,10 +13,12 @@ use App\Http\Model\Faculty;
 use App\Http\Model\Field;
 use App\Http\Model\Laboratory;
 use App\Http\Model\Office;
+use App\Http\Model\PhanBien;
 use App\Http\Model\Research;
 use App\Http\Model\Subject;
 use App\Http\Model\Teacher;
 use App\Http\Model\TeacherField;
+use App\Http\Model\Topic;
 use App\Http\Model\Unit;
 use App\Http\Model\User;
 use Illuminate\Http\Request;
@@ -125,57 +127,8 @@ class TeacherController extends Controller
         $fullname = $request->input('fullname');
         $unit = $request->input('unit');
         $email = $request->input('email');
-        if(count(User::where('username',$teacherCode)->get()) > 0){
-            return response()->json(['result'=>false]);
-        }
-        $model = new User();
-        $model->username = $teacherCode;
-        $model->password = '12345678';
-        $model->permission = '2';
-        $result = $model->save();
-        if($result <= 0){
-            return response()->json(['result'=>false]);
-        }
-        $userId = User::where('username',$teacherCode)->first();
-        $model = new Teacher();
-        $model->fullName = $fullname;
-        $model->teacherCode = $teacherCode;
-        $model->vnuMail = $email;
-        $model->userid = $userId->id;
-        $result = $model->save();
-        if($result <= 0) {
-            $this->deleteIfError($teacherCode);
-            return response()->json(['result'=>false]);
-        }
-        $units = $this->getUnitId($unit);
-        if(is_null($units)){ //Loi o day
-            $this->deleteIfError($teacherCode);
-            return response()->json(['result'=>false]);
-        }
-        if(key_exists('faculty',$units)){
-            $model = new Unit();
-            $model->teacherCode = $teacherCode;
-            $model->faculty = $units['faculty'];
-            $result = $model->save();
-            if($result <= 0) {
-                $this->deleteIfError($teacherCode);
-                return response()->json(['result'=>false]);
-            }
-        }
-        else if(key_exists('subject',$units) || key_exists('office',$units) || key_exists('laboratory',$units)){
-            $model = new Unit();
-            $model->teacherCode = $teacherCode;
-            $model->faculty = $units['facultyid'];
-            if(isset($units['subject'])) $model->subjects = $units['subject'];
-            else if(isset($units['office'])) $model->vpk = $units['office'];
-            else $model->ptn = $units['laboratory'];
-            $result = $model->save();
-            if($result <= 0) {
-                $this->deleteIfError($teacherCode);
-                return response()->json(['result'=>false]);
-            }
-        }
-        return response()->json(['result'=>true]);
+        $result = self::addTeacherToDB($teacherCode,$fullname,$email,$unit);
+        return response()->json(['result'=>$result]);
 
     }
 
@@ -184,21 +137,48 @@ class TeacherController extends Controller
             'teachercode'=>'required|not_in:""," ",null',
         ]);
         $teacherCode = $request->input('teachercode');
+        $teacher = Teacher::where('teacherCode',$teacherCode)->first();
+        if(isset($teacher)){
+            $topics = Topic::where('teacher',$teacherCode)->get();
+            $this->preDelete($topics);
+            $pb = PhanBien::where('teacher',$teacherCode)->get();
+            foreach ($pb as $p){
+                $p->teacher = null;
+                $p->save();
+            }
+            $teacherFields = TeacherField::where('teacherCode',$teacherCode)->get();
+            $this->preDelete($teacherFields);
+            $researches = Research::where('teachercode',$teacherCode)->get();
+            $this->preDelete($researches);
+            $unit = Unit::where('teacherCode',$teacherCode)->get();
+            $this->preDelete($unit);
+            $teacher->delete();
+            $user = User::where('username',$teacherCode)->first();
+            $user->delete();
+            return response()->json(['result'=>true]);
+        }else{
+            return response()->json(['result'=>false]);
+        }
 
     }
-
-    public function uploadExcel(Request $request){
-        $imageName = $request->file('excel')->getBasename();
-        $request->file('excel')->move(storage_path('excel'), $imageName);
-
+    private function preDelete($fields){
+        foreach ($fields as $field){
+            $field->delete();
+        }
     }
 
     public function changeAvatar(Request $request){
-        $imageName = $request->file('avatar')->getBasename();
-        $request->file('avatar')->move(storage_path('avatar'), $imageName);
+        $this->validate($request, [
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'id'=>'required'
+        ]);
+        $image = $request->file('avatar');
+        $filename = time().'.'.$image->getClientOriginalExtension();
+        $destinationPath = storage_path('avatar');
+        $image->move($destinationPath, $filename);
         $teacherCode = $request->input('id');
         $teacher = Teacher::where('teacherCode',$teacherCode)->first();
-        $teacher->imgurl = storage_path('avatar')+$imageName;
+        $teacher->imgurl = '/storage/avatar/'.$filename;
         $result = $teacher->save();
         return response()->json(['result'=>$result]);
     }
@@ -271,7 +251,68 @@ class TeacherController extends Controller
         return response()->json(['result'=>true]);
     }
 
-    private function deleteIfError($teacherCode){
+    public static function addTeacherToDB($teacherCode,$fullname,$email,$unit){
+        if(count(User::where('username',$teacherCode)->get()) > 0){
+            $result = false;
+            return $result;
+        }
+        $model = new User();
+        $model->username = $teacherCode;
+        $model->password = '12345678';
+        $model->permission = '3';
+        $result = $model->save();
+        if($result <= 0){
+            $result = false;
+            return $result;
+        }
+        $userId = User::where('username',$teacherCode)->first();
+        $model = new Teacher();
+        $model->fullName = $fullname;
+        $model->teacherCode = $teacherCode;
+        $model->vnuMail = $email;
+        $model->userid = $userId->id;
+        $result = $model->save();
+        if($result <= 0) {
+            TeacherController::deleteIfError($teacherCode);
+            $result = false;
+            return $result;
+        }
+        $units = TeacherController::getUnitId($unit);
+        if(is_null($units)){
+            TeacherController::deleteIfError($teacherCode);
+            $result = false;
+            return $result;
+        }
+        if(key_exists('faculty',$units)){
+            $model = new Unit();
+            $model->teacherCode = $teacherCode;
+            $model->faculty = $units['faculty'];
+            $result = $model->save();
+            if($result <= 0) {
+                TeacherController::deleteIfError($teacherCode);
+                $result = false;
+                return $result;
+            }
+        }
+        else if(key_exists('subject',$units) || key_exists('office',$units) || key_exists('laboratory',$units)){
+            $model = new Unit();
+            $model->teacherCode = $teacherCode;
+            $model->faculty = $units['facultyid'];
+            if(isset($units['subject'])) $model->subjects = $units['subject'];
+            else if(isset($units['office'])) $model->vpk = $units['office'];
+            else $model->ptn = $units['laboratory'];
+            $result = $model->save();
+            if($result <= 0) {
+                TeacherController::deleteIfError($teacherCode);
+                $result = false;
+                return $result;
+            }
+        }
+        $result = true;
+        return $result;
+    }
+
+    public static function deleteIfError($teacherCode){
         $del = Teacher::where('teacherCode',$teacherCode)->first();
         if($del != '') $del->delete();
         $del = User::where('username',$teacherCode)->first();
@@ -280,7 +321,7 @@ class TeacherController extends Controller
     }
 
 
-    private function getUnitId($unit){
+    public static function getUnitId($unit){
         $check = Faculty::where('name',$unit)->first();
         if(isset($check)){
             return ['faculty'=>$check->id];

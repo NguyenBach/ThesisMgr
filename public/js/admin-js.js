@@ -227,7 +227,7 @@ function createLecturerManage(data) {
         if(unit.laboratory != null ) unitText += "\n Phòng thí nghiệm : "+ unit.laboratory;
         $(tr).append('<td>'+unitText+'</td>');
         $(tr).append('<td>'+value.vnuMail+'</td>');
-        $(tr).append('<td><span class="fa fa-minus poiter"></span> <span class="fa fa-wrench poiter"></span></td>');
+        $(tr).append('<td><span id="'+value.teacherCode+'" class="fa fa-minus poiter" onclick="deleteLecturer(this)"></span> <span class="fa fa-wrench poiter"></span></td>');
         $(tbody).append(tr);
     });
     $(table).append(tbody);
@@ -275,13 +275,12 @@ function createAddTeacher(a) {
     $(div).append(select);
     var form1 = document.createElement('form');
     form1.setAttribute('id','form1');
-    form1.setAttribute('action','/excelupload');
     form1.setAttribute('method',"POST");
     form1.setAttribute('enctype',"multipart/form-data");
     $(form1).append(' <label>File Upload: </label>');
     $(form1).append('<input type="file" name="excel">');
     $(form1).append('<input type="hidden" name="_token" value="'+ $('#token').attr('content') +'">')
-    $(form1).append('<button class="btn btn-danger" type="submit" >Thêm</button>')
+    $(form1).append('<button class="btn btn-danger" type="button" onclick="addTeacherExecl()" >Thêm</button>')
     $(div).append(form1);
     var form2 = document.createElement('div');
     form2.setAttribute('id','form2');
@@ -296,6 +295,24 @@ function createAddTeacher(a) {
     $(div).append(form2);
     $('body').append(div);
 
+}
+function deleteLecturer(e) {
+    var id = $(e).attr('id');
+    var data = {'teachercode':id,'_token':$('#token').attr('content')};
+    $.ajax({
+        url:'/deleteteacher',
+        type:'post',
+        dataType:'json',
+        data:data,
+        async:false,
+        success:function (v) {
+            if(v.result){
+                showLecturerManage();
+            }else{
+                alert('Không xóa được');
+            }
+        }
+    })
 }
 function addTeacherToServer(data) {
     var result;
@@ -329,6 +346,35 @@ function addLecturer(e) {
     }else {
         alert('Thêm thất bại');
     }
+}
+function addTeacherExecl(){
+    var data = new FormData(document.getElementById("form1"));
+    var url = "/excelupload";
+    $.ajax({
+        url: url,
+        data: data,
+        dataType: 'json',
+        type: 'POST',
+        async: false,
+        success: function (data) {
+            var suc = false;
+            $.each(data,function (key, value) {
+                if(value == true){
+                    suc = true;
+                    showLecturerManage();
+                    closeDialog();
+                    return false;
+                }
+            });
+            if(suc == false) alert('Không thêm được!');
+        },
+        error: function (data) {
+            alert('Không thêm được!')
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
 }
 
 function createTrainingManager(){
@@ -517,13 +563,12 @@ function createAddStudent(a) {
     $(div).append(select);
     var form1 = document.createElement('form');
     form1.setAttribute('id','form1');
-    form1.setAttribute('action','/excelupload');
     form1.setAttribute('method',"POST");
     form1.setAttribute('enctype',"multipart/form-data");
     $(form1).append(' <label>File Upload: </label>');
     $(form1).append('<input type="file" name="excel">');
     $(form1).append('<input type="hidden" name="_token" value="'+ $('#token').attr('content') +'">')
-    $(form1).append('<button class="btn btn-danger" type="submit" >Thêm</button>')
+    $(form1).append('<button class="btn btn-danger" type="button" onclick="addStudentExecl()" >Thêm</button>')
     $(div).append(form1);
     var form2 = document.createElement('div');
     form2.setAttribute('id','form2');
@@ -562,6 +607,35 @@ function createAddStudent(a) {
     $(div).append(form2);
     $('body').append(div);
 
+}
+function addStudentExecl(){
+    var data = new FormData(document.getElementById("form1"));
+    var url = "/exceluploadstudent";
+    $.ajax({
+        url: url,
+        data: data,
+        dataType: 'json',
+        type: 'POST',
+        async: false,
+        success: function (data) {
+            var suc = false;
+            $.each(data,function (key, value) {
+                if(value == true){
+                    suc = true;
+                    showStudentManager();
+                    closeDialog();
+                    return false;
+                }
+            });
+            if(suc == false) alert('Không thêm được!');
+        },
+        error: function (data) {
+            alert('Không thêm được!')
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
 }
 function addStudentToServer(data) {
     var result;
@@ -725,17 +799,46 @@ function changeStatusExcel() {
     div.setAttribute('class','change-status');
     $(div).append('<h3>Thêm Sinh viên đủ điều kiện </h3>')
     var form1 = document.createElement('form');
-    form1.setAttribute('id','form1');
-    form1.setAttribute('action','/excelupload');
+    form1.setAttribute('id','formexcel');
     form1.setAttribute('method',"POST");
     form1.setAttribute('enctype',"multipart/form-data");
     $(form1).append(' <label>File Upload: </label>');
     $(form1).append('<input type="file" name="excel">');
     $(form1).append('<input type="hidden" name="_token" value="'+ $('#token').attr('content') +'">')
-    $(form1).append('<button class="btn btn-danger" type="submit" >Thêm</button>')
+    $(form1).append('<button class="btn btn-danger" type="button" onclick="changeStatusToServer()" >Thêm</button>')
     $(form1).append('<button class="btn btn-danger" type="button" style="margin-left: 7px" onclick="closeDialog2()">Hủy</button>')
     $(div).append(form1);
     $('body').append(div);
+}
+
+function changeStatusToServer() {
+    var data = new FormData(document.getElementById("formexcel"));
+    var url = "/exceluploadstatus";
+    $.ajax({
+        url: url,
+        data: data,
+        dataType: 'json',
+        type: 'POST',
+        async: false,
+        success: function (data) {
+            var suc = false;
+            $.each(data,function (key, value) {
+                if(value == true){
+                    suc = true;
+                    showDialog(createStudentTopicDialog);
+                    closeDialog2();
+                    return false;
+                }
+            });
+            if(suc == false) alert('Không thêm được!');
+        },
+        error: function (data) {
+            alert('Không thêm được!')
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
 }
 
 function changeOk(e) {

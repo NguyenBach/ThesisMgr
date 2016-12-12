@@ -101,6 +101,7 @@ Route::get('/test',function (){
 Route::post('/changepassword','Login\LoginController@changePassword');
 
 Route::post('/changeavatar','TeacherController@changeAvatar');
+Route::post('/changeavatarstudent','StudentController@changeAvatar');
 
 Route::post('/unit','UnitController@addUnit');
 Route::post('/deleteunit','UnitController@deleteUnit');
@@ -110,7 +111,11 @@ Route::post('/addteacher','TeacherController@addTeacher');
 Route::get('/unit','Guest\GuestController@getAllUnit');
 Route::get('/unit/{id}','UnitController@getUnitById');
 
-Route::post('/excelupload','TeacherController@uploadExcel');
+Route::post('/excelupload','Admin\AdminController@addTeacherExcel');
+
+Route::post('/exceluploadstudent','Admin\AdminController@addStudentExcel');
+Route::post('/exceluploadstatus','Admin\AdminController@addStudentStatusExcel');
+
 
 Route::get('/course','ProgramController@getAllCourse');
 Route::get('/train','ProgramController@getAllTrain');
@@ -131,6 +136,8 @@ Route::get('/teacher/{teacherid}','TeacherController@getTeacherById');
 Route::get('/teachernumber','TeacherController@getNumberTeacher');
 Route::get('/teacherunitfilter/{unitId}','TeacherController@filterTeacherByUnit');
 Route::get('/nine/{page}','TeacherController@getNineTeacher');
+Route::post('/deleteteacher','TeacherController@deleteTeacher');
+
 
 Route::get('/field/{id}','FieldController@getFieldById');
 Route::get('/teacherfieldfilter/{fieldid}','TeacherController@filterTeacherByField');

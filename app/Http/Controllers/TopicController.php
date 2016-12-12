@@ -53,15 +53,15 @@ class TopicController extends Controller
         $topic = Topic::where('id',$topicId)->first();
         $act = $request->input('act');
         if($act == 'accept'){
-            if($topic->status == 3){
+            if($topic->status == 2){
                 $topic->status = 1;
                 $topic->save();
                 return response()->json(['result'=>true]);
             }
         }
         else if($act == 'denied'){
-            if($topic->status == 3){
-                $topic->status = 2;
+            if($topic->status == 2){
+                $topic->status = 3;
                 $topic->save();
                 return response()->json(['result'=>true]);
             }
@@ -92,10 +92,10 @@ class TopicController extends Controller
         $topic->description = $gt;
         $topic->student = $studentid;
         $topic->teacher = $teacherid;
-        $topic->status = 1;
+        $topic->status = 2;
         $topic->thesis = $thesis->id;
         $result = $topic->save();
-        return redirect('/student/topic');
+        return response()->json(['result'=>$result]);
 
     }
 }

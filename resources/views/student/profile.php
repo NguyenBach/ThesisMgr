@@ -52,9 +52,9 @@
         <div class="col-md-9 dashboard">
            <div class="row profile">
                <div class="col-md-3 avatar">
-                   <img src="/public/img/uet_logo.png" alt="" class="img-responsive">
-                   <h4>Nguyễn Quang Bách</h4>
-                   <button class="btn btn-danger" type="button">Thay ảnh</button>
+                   <img src="" alt="" class="img-responsive" id="avatar">
+                   <h4 id="img-fullname">Nguyễn Quang Bách</h4>
+                   <button class="btn btn-danger" type="button" onclick="showDialog(createChangeAvatarDialog)">Thay ảnh</button>
                </div>
                <div class="col-md-9 profile-infomation">
                    <h2>Thông tin cá nhân</h2>
@@ -116,16 +116,7 @@
 <script src="/public/js/student-js.js"></script>
 <script>
     $(document).ready(function () {
-        var studentid = $('#userid').attr('content');
-        var student = getData('/getstudent/'+studentid);
-        $('#studentid').append(student.studentCode);
-        $('#name').html(student.fullname);
-        $("#email").html(student.vnuMail);
-        var kh = getData('/program/course/'+student.khoahoc);
-        $('#course').html(kh[0].name);
-        var ct = getData('/program/train/'+student.ctdt);
-        $('#train').html(ct[0].name);
-
+        loadProfile();
     })
 </script>
 </body>

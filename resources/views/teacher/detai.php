@@ -54,8 +54,7 @@
             <div class="detai-header">
                 <h1>Quản lý đề tài khóa luận</h1>
                 <div class="detai-status">
-                    <span></span><label>Trạng thái: </label> Được đăng ký <br>
-                    <span></span><label>Thời hạn đăng ký:</label> 20/11/2016
+                    <span></span><label>Thời hạn đăng ký:</label> <span id="datedk"></span>
                 </div>
             </div>
 
@@ -129,6 +128,8 @@
 <script src="/public/js/teacher-js.js"></script>
 <script>
     $(document).ready(function () {
+        var currentThesis = getData('/currentthesis');
+        $('#datedk').html(currentThesis.ngaybatdau);
         createInspectedTopic();
     })
 </script>

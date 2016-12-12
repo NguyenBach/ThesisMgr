@@ -21,7 +21,7 @@
     <div class="container">
 
         <div class="site-logo">
-            <img src="public/img/139.png" class="img-responsive" alt=""  width="150px" >
+            <img src="/public/img/139.png" class="img-responsive" alt=""  width="150px" >
             <div>
                 <h1>Khóa Luận Tốt Nghiệp </h1>
                 <h3>Trường Đại học Công nghệ - Đại Học Quốc Gia Hà Nội </h3>

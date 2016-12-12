@@ -16,7 +16,6 @@ function createTrainingTopic() {
             $('.detai').append('<label >Giảng viên: </label> <a href="#"><strong>'+ teacher[0].fullName +'</strong></a><br>');
             $('.detai').append('<label >Mô tả đề tài : </label> <br>');
             $('.detai').append(' <p>'+value.description+'</p>');
-            $('.detai').append('<label>Trạng Thái:</label> <strong>Hoàn thành</strong>');
         }
     });
 }
@@ -25,6 +24,7 @@ function createInspectedTopic() {
     var teacherid = $("#userid").attr('content');
     var url = '/topic/teacher/'+teacherid;
     var data = getData(url);
+
     $("#inspect").empty();
     $("#not_inspected").empty();
     $.each(data,function (key, value) {
@@ -38,10 +38,9 @@ function createInspectedTopic() {
             $(div).append('<label >Giảng viên: </label> <a href="#"><strong>'+ teacher[0].fullName +'</strong></a><br>');
             $(div).append('<label >Mô tả đề tài : </label> <br>');
             $(div).append(' <p>'+value.description+'</p>');
-            $(div).append('<label>Trạng Thái:</label> <strong>Hoàn thành</strong>');
             $('#inspect').append(div);
         }
-        if(value.status == 3){
+        if(value.status == 2){
             var div1 = document.createElement('div');
             $(div1).attr('class','duyet');
             $(div1).append('<label>Tên đề tài: </label> <strong> '+value.name+'</strong> <br>');
@@ -93,6 +92,9 @@ function loadProfile() {
     $('#fullname').append(teacherProfile[0].fullName);
     $('#email').empty();
     $('#email').append(teacherProfile[0].vnuMail);
+    $("#avatar").attr('src',teacherProfile[0].imgurl);
+    $('#img-fullname').empty();
+    $("#img-fullname").append(teacherProfile[0].fullName);
     var unit  = getData('/teacherunit/'+teacherid);
     var unitText = 'Khoa: ' + unit.faculty;
     if(unit.subject != null ) unitText += "\n Bộ môn: "+ unit.subject;
@@ -210,7 +212,7 @@ function createChangeAvatarDialog() {
     div.setAttribute('id','change-avatar');
     div.setAttribute('enctype',"multipart/form-data");
     $(div).append('<h3>Thay ảnh đại diện</h3>');
-    var teacherid = $("#teacherid").attr('content');
+    var teacherid = $("#userid").attr('content');
     var teacher = getData('/teacher/'+teacherid);
     var imgurl = teacher[0].imgurl != null ? teacher[0].imgurl : '/public/img/uet_logo.png';
     $(div).append('<img src="'+imgurl+'" width="150px" class="img-responsive" id="img-pre"/>');
@@ -231,7 +233,8 @@ function changeAvatar() {
         type: 'POST',
         async: false,
         success: function (data) {
-            alert(data);
+            loadProfile();
+            closeDialog();
         },
         error: function (data) {
 

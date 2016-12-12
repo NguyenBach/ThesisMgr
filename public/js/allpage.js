@@ -77,6 +77,7 @@ function closeDialog() {
     });
 }
 function createTeacherDialog(data) {
+    var teacherid = data.teacherCode;
     var oneTeacher = document.createElement('div');
     $(oneTeacher).attr('class','one-teacher');
     var row = document.createElement('div');
@@ -92,8 +93,22 @@ function createTeacherDialog(data) {
     $(col2).append('<h2>Thông tin cá nhân</h2>');
     $(col2).append('<label>Mã Cán bộ: </label> '+ data.teacherCode +' <br>');
     $(col2).append('<label>Họ tên: </label> '+data.fullName+' <br>');
-    // $(col2).append('<label>Ngày sinh: </label> 21/04/1996 <br>');
     $(col2).append('<label>Email: </label> '+data.vnuMail+' <br>');
+    $(col2).append('<label>Chủ đề nghiên cứu: </label> ');
+    var ul = document.createElement('ul');
+    var research = getData('/getresearch/'+teacherid);
+    $.each(research,function (key, value) {
+        $(ul).append('<li>'+value.name + '</li>');
+    });
+    $(col2).append(ul);
+
+    $(col2).append('<label>Lĩnh vực nghiên cứu: </label> <ul id="lv"></ul>');
+    ul = document.createElement('ul');
+    var field = getData('/teacherfield/'+teacherid);
+    $.each(field,function (key, value) {
+        $(ul).append('<li>'+value.name + '</li>');
+    });
+    $(col2).append(ul);
     $(row).append(col2);
     $(oneTeacher).append(row);
     $('body').append(oneTeacher);

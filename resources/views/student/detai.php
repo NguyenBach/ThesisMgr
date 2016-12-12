@@ -4,7 +4,7 @@
     <title>Khoa luan</title>
     <meta charset="utf-8"/>
     <meta id="userid" content="<?php echo session('userid')?>"/>
-    <meta id="token" content="<?php csrf_token() ?>"/>
+    <meta id="token" content="<?php echo csrf_token() ?>"/>
     <link rel="stylesheet" href="/public/css/bootstrap.min.css">
     <link rel="stylesheet" href="/public/font-awesome/css/font-awesome.css">
     <!--        all page style-->
@@ -61,18 +61,8 @@
             <div class="detaidk clearfix">
                 <h3>Đề tài đã đăng ký</h3>
                 Bạn chưa đăng ký đề tài nào <br>
-                <button class="btn btn-primary" type="button" id="dk-btn">Đăng ký</button>
-                <form class="add-dialog" id="form-dk" style="display: none" method="post" action="/addtopic">
-                    <h3>Đăng ký đề tài</h3>
-                    <input type="hidden" value="<?php echo session('userid')?>" name="studentid">
-                    <input type="hidden" name="_token" value="<?php echo csrf_token()?>">
-                    <label>Tên đề tài: </label> <input type="text" name="name"> <br>
-                    <label >Giảng viên: </label> <input type="text" name="teacherid" placeholder="Mã giảng viên"/><br>
-                    <label >Mô tả đề tài : </label> <textarea name="gt"  cols="45" rows="10"></textarea> <br>
-                    <button class="btn btn-danger right" style="margin-left: 15px" id="cancel">Hủy</button>
-                    <button class="btn btn-danger right" style="margin-left: 15px" type="submit">Đăng ký</button>
+                <button class="btn btn-primary" type="button" id="dk-btn" onclick="showDialog(createRegisterDialog)">Đăng ký</button>
 
-                </form>
             </div>
             <div class="detai clearfix" style="display: none">
                 <h3>Đề tài đã đăng ký</h3>
@@ -137,38 +127,14 @@
 <script src="/public/js/student-js.js"></script>
 <script>
     $(document).ready(function () {
-        var studentid = $('#userid').attr('content');
-        var topic = getData('/topic/student/'+studentid);
-        var currentThesis = getData('/currentthesis');
-        var student = getData('/getstudent/'+studentid);
-        if(currentThesis.status == 1){
-
-            if(student.status == 1){
-                $("#status").html('Được đăng ký');
-                $("#datestart").html(currentThesis.ngaybatdau);
-            }
-            else{
-                $("#status").html('Không được đăng ký');
-                $("#datestart").html(currentThesis.ngaybatdau);
-                $('#dk-btn').remove();
-            }
-        }
-        if(topic[0].thesis == currentThesis.id){
-            $('.detaidk').css('display','none');
-            $('.detai').css('display','');
-            createTrainingTopic();
-            $('.detai').append(' <button class="btn btn-danger right" style="margin-left: 15px">Hủy đề tài</button>');
-            $('.detai').append('<button class="btn btn-danger right" >Sửa đề tài</button>');
-        }else{
-            $('.detai').css('display','none');
-            $('.detaidk').css('display','');
-        }
+        createTopic();
         $('#dk-btn').click(function () {
             $('#form-dk').css('display','');
         });
         $("#cancel").click(function () {
             $('#form-dk').css('display','none');
-        })
+        });
+
     })
 </script>
 </body>
