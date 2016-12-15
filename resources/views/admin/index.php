@@ -84,19 +84,20 @@
 
                                 </li>
                                 <li class="sub-menu">
+                                    <a href="javascript:showStudentFileManager()" >
+                                        <i class="fa fa-plus"></i>
+                                        <span>Quản lý hồ sơ bảo vệ </span>
+                                    </a>
+
+                                </li>
+                                <li class="sub-menu">
                                     <a href="javascript:changeMainContent()" >
                                         <i class="fa fa-mortar-board"></i>
                                         <span>Quản lý đăng ký bảo vệ</span>
                                     </a>
 
                                 </li>
-                                <li class="sub-menu">
-                                    <a href="javascript:changeMainContent()" >
-                                        <i class="fa fa-plus"></i>
-                                        <span>Quản lý hồ sơ bảo vệ </span>
-                                    </a>
 
-                                </li>
 
                             </ul>
                         </div>

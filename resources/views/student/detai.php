@@ -64,14 +64,13 @@
                 <button class="btn btn-primary" type="button" id="dk-btn" onclick="showDialog(createRegisterDialog)">Đăng ký</button>
 
             </div>
-            <div class="detai clearfix" style="display: none">
+            <div class="detai clearfix" style="display: none; padding-bottom: 15px">
                 <h3>Đề tài đã đăng ký</h3>
                 <label>Tên đề tài: </label> <strong> E-Learning</strong> <br>
                 <label >Sinh viên: </label> <a href="#"><strong>Nguyễn Quang Bách</strong></a><br>
                 <label >Giảng viên: </label> <a href="#"><strong>Lê Việt Hà</strong></a><br>
                 <label >Mô tả đề tài : </label> <br>
                 <p>Đây là trang web  dạy tiếng việt cho người nước ngoài</p>
-                <label>Trạng Thái:</label> <strong>Hoàn thành</strong> <br>
 
 
             </div>

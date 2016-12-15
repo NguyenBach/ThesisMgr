@@ -45,8 +45,6 @@ function login() {
             }
         });
         if(data1.login == 'true'){
-
-            alert("Đăng nhập thành công");
             window.location = '/';
         }else{
             console.log(data1.login);
@@ -265,7 +263,7 @@ function showUnitTeacher(data) {
     $(div).attr('class','col-md-4');
     $(div).attr('onclick','showTeacher(this)');
     $(div).attr('id',data.teacherCode);
-    $(div).attr('style','margin-top:15px;margin-bottom:15px');
+    $(div).attr('style','margin-top:15px;margin-bottom:15px;padding-top:15px');
     var avatarUrl = (data.imgurl == " " || data.imgurl == null) ? '/public/img/139.png': data.imgurl;
     $(div).append('<img src="'+avatarUrl+'" alt="" class="img-responsive">');
     $(div).append('<h4>'+data.fullName+'</h4>');

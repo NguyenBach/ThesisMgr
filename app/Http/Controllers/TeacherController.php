@@ -114,6 +114,9 @@ class TeacherController extends Controller
 
         return response()->json($returnArray,200,$header,JSON_UNESCAPED_UNICODE);
     }
+    /*
+    * thêm giảng viên
+    * */
     public function addTeacher(Request $request){
         $this->validate($request,[
             'teachercode'=>'required|not_in:""," ",null',
@@ -131,6 +134,9 @@ class TeacherController extends Controller
         return response()->json(['result'=>$result]);
 
     }
+    /*
+    * xóa giảng viên
+    * */
 
     public function deleteTeacher(Request $request){
         $this->validate($request,[
@@ -166,7 +172,9 @@ class TeacherController extends Controller
             $field->delete();
         }
     }
-
+    /*
+        * thay đổi avatar
+        * */
     public function changeAvatar(Request $request){
         $this->validate($request, [
             'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',

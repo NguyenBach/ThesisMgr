@@ -48,16 +48,11 @@
 </header>
 <div class="container">
     <div class="row introduction">
-        <img src="public/img/vp1.PNG" alt="" class="img-responsive">
+        <img src="public/img/IMG_3808.JPG" alt="" class="img-responsive">
         <div class="intro">
             <h2>Chào mừng đến với website đăng ký khóa luận tốt nghiệp </h2>
             <p>
-                Được thành lập vào năm 1995 nhưng Khoa CNTT có truyền thống hơn 50 năm phát triển từ năm 1965 với việc
-                đào tạo chuyên ngành Máy tính tại Khoa Toán Cơ thuộc Trường Đại học Tổng hợp Hà Nội. Với sự nỗ lực cố
-                gắng của tập thể các cán bộ giảng viên, các thế hệ sinh viên, học viên và nghiên cứu sinh; dưới sự chỉ
-                đạo sát sao, ủng hộ và tạo điều kiện của các thế hệ lãnh đạo Trường ĐHCN và ĐHQGHN, Khoa CNTT ngày hôm
-                nay đã đạt được nhiều thành tích nổi bật trong hoạt động đào tạo, bồi dưỡng nhân tài và nghiên cứu khoa
-                học tiếp cận trình độ tiên tiến trong khu vực và thế giới.
+
             </p>
         </div>
     </div>
@@ -89,27 +84,16 @@
             </div>
             <div class="col-content">
                 <div class="row" style="margin: 10px;" id="teacher">
-                    <!--                        <div class="col-md-4 teacher-img">-->
-                    <!--                            <img src="public/img/139.png" alt="" width="50px" height="50px"><br>-->
-                    <!--                            <a href="#">Nguyễn Quang Bách </a>-->
-                    <!--                        </div>-->
-                    <!--                        <div class="col-md-4 teacher-img" >-->
-                    <!--                            <img src="public/img/139.png" alt="" width="50px" height="50px"><br>-->
-                    <!--                            <a href="#">Nguyễn Quang Bách </a>-->
-                    <!--                        </div>-->
-                    <!--                        <div class="col-md-4 teacher-img">-->
-                    <!--                            <img src="public/img/139.png" alt="" width="50px" height="50px"><br>-->
-                    <!--                            <a href="#">Nguyễn Quang Bách </a>-->
-                    <!--                        </div>-->
+
                 </div>
 
-                <div class="row">
-                    <ul class="pager">
-                        <li id="pager-pre"><a href="javascript:;"><</a></li>
-
-                        <li id="pager-next"><a href="javascript:;">></a></li>
-                    </ul>
-                </div>
+<!--                <div class="row">-->
+<!--                    <ul class="pager">-->
+<!--                        <li id="pager-pre"><a href="javascript:;"><</a></li>-->
+<!---->
+<!--                        <li id="pager-next"><a href="javascript:;">></a></li>-->
+<!--                    </ul>-->
+<!--                </div>-->
             </div>
         </div>
     </div>

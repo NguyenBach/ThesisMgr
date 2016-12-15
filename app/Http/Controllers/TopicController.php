@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Model\Student;
+use App\Http\Model\StudentFile;
 use App\Http\Model\Teacher;
 use App\Http\Model\Thesis;
 use App\Http\Model\Topic;
@@ -51,11 +52,17 @@ class TopicController extends Controller
         ]);
         $topicId = $request->input('id');
         $topic = Topic::where('id',$topicId)->first();
+        $thesis = Thesis::where('ngaybatdau' ,Thesis::max('ngaybatdau'))->where('status',1)->first();
         $act = $request->input('act');
         if($act == 'accept'){
             if($topic->status == 2){
                 $topic->status = 1;
                 $topic->save();
+                $file = new StudentFile();
+                $file->student = $topic->student;
+                $file->topic = $topic->id;
+                $file->thesis = $thesis->id;
+                $file->save();
                 return response()->json(['result'=>true]);
             }
         }
@@ -97,5 +104,37 @@ class TopicController extends Controller
         $result = $topic->save();
         return response()->json(['result'=>$result]);
 
+    }
+
+    public function changeTopic(Request $request){
+        $this->validate($request,[
+            'studentid'=>'required',
+            'teacherid'=>'required',
+            'name'=>'required'
+        ]);
+        $studentid = $request->input('studentid');
+        $teacherid = $request->input('teacherid');
+        $name = $request->input('name');
+        $gt = $request->input('gt');
+        $topic = Topic::where('student',$studentid)->first();
+        $topic->name = $name;
+        $topic->description = $gt;
+        $topic->teacher = $teacherid;
+        $topic->status = 2;
+        $result = $topic->save();
+        return response()->json(['result'=>$result]);
+
+    }
+
+    public function deleteTopic(Request $request){
+        $this->validate($request,[
+            'id'=>'required',
+        ]);
+        $id = $request->input('id');
+        $topic = Topic::where('id',$id)->first();
+        $file = StudentFile::where('topic',$id)->first();
+        $file->delete();
+        $result = $topic->delete();
+        return response()->json(['result'=>$result]);
     }
 }

@@ -8,7 +8,7 @@ function createTrainingTopic() {
     $('.detai').empty();
     $('.detai').append('<h3>Đề tài đã đăng ký</h3>');
     $.each(data,function (key, value) {
-        if(value.status == 1){
+
             $('.detai').append('<label>Tên đề tài: </label> <strong> '+value.name+'</strong> <br>');
             var student = getData('/getstudent/'+value.student);
             $('.detai').append('<label >Sinh viên: </label> <a href="#"><strong>'+student.fullname +'</strong></a><br>');
@@ -16,8 +16,12 @@ function createTrainingTopic() {
             $('.detai').append('<label >Giảng viên: </label> <a href="#"><strong>'+ teacher[0].fullName +'</strong></a><br>');
             $('.detai').append('<label >Mô tả đề tài : </label> <br>');
             $('.detai').append(' <p>'+value.description+'</p>');
-            $('.detai').append('<label>Trạng Thái:</label> <strong>Hoàn thành</strong>');
-        }
+            var status = '';
+            if(value.status == 1 ) status = 'Được chấp nhận';
+            if(value.status == 2) status = 'Đang chờ duyệt';
+            if(value.status == 3) status = 'Không được chấp nhận';
+            $('.detai').append('<label>Trạng thái:</label>'+status);
+
     });
 }
 function createFile() {
@@ -50,8 +54,13 @@ function createTopic() {
         $('.detaidk').css('display','none');
         $('.detai').css('display','');
         createTrainingTopic();
-        $('.detai').append(' <button class="btn btn-danger right" style="margin-left: 15px">Hủy đề tài</button>');
-        $('.detai').append('<button class="btn btn-danger right" >Sửa đề tài</button>');
+        if(topic[0].status == 3){
+            $('.detai').append(' <button class="btn btn-danger right" style="margin-left: 15px">Hủy đề tài</button>');
+            $('.detai').append('<button class="btn btn-danger right" onclick="showDialog(createChangeTopicDialog)">Sửa đề tài</button>');
+        }else{
+            $('.detai').append(' <button class="btn btn-danger right" style="margin-left: 15px">Hủy đề tài</button>');
+        }
+
     }else{
         $('.detai').css('display','none');
         $('.detaidk').css('display','');
@@ -64,6 +73,34 @@ function RegisterTopic() {
     var teacherid = $('input[name="teacherid"]').val();
     var gt = $('textarea').val();
     var url = "/addtopic";
+    var data = {'_token':token,'studentid':studentid,'teacherid':teacherid,'gt':gt,'name':name};
+    $.ajax({
+        url: url,
+        data: data,
+        dataType: 'json',
+        type: 'POST',
+        async: false,
+        success: function (data) {
+            if(data.result == true){
+                createTopic();
+                closeDialog();
+            }else{
+                alert('Khong Them duoc');
+
+            }
+        },
+        error: function (data) {
+            alert('Không thêm được!')
+        }
+    });
+}
+function changeTopic() {
+    var name = $('input[name="name"]').val();
+    var studentid = $('input[name="studentid"]').val();
+    var token = $('input[name="_token"]').val();
+    var teacherid = $('input[name="teacherid"]').val();
+    var gt = $('textarea').val();
+    var url = "/changetopic";
     var data = {'_token':token,'studentid':studentid,'teacherid':teacherid,'gt':gt,'name':name};
     $.ajax({
         url: url,
@@ -101,6 +138,25 @@ function createRegisterDialog() {
     $(form).append('<label >Mô tả đề tài : </label> <textarea name="gt"  cols="45" rows="10"></textarea> <br>');
     $(form).append('<button class="btn btn-danger right" style="margin-left: 15px" id="cancel">Hủy</button>');
     $(form).append('<button class="btn btn-danger right" style="margin-left: 15px" type="button" onclick="RegisterTopic()"  id="dk">Đăng ký</button>');
+    $('body').append(form);
+}
+function createChangeTopicDialog(e) {
+    var studentid = $('#userid').attr('content');
+    var topic = getData('/topic/student/'+studentid);
+    var token = $("#token").attr('content');
+    var form = document.createElement('form');
+    form.setAttribute('class',"add-dialog");
+    form.setAttribute('id',"form-dk");
+    form.setAttribute('method','post');
+    form.setAttribute('enctype','multipart/form-data');
+    $(form).append('<h3>Thay đổi đề tài</h3>');
+    $(form).append('<input type="hidden" value="'+studentid+'" name="studentid"/>');
+    $(form).append('<input type="hidden" name="_token" value="'+token+'"/>');
+    $(form).append('<label>Tên đề tài: </label> <input type="text" name="name" value="'+topic[0].name+'"/> <br>');
+    $(form).append('<label >Giảng viên: </label> <input type="text" name="teacherid" value="'+topic[0].teacher+'"/><br>');
+    $(form).append('<label >Mô tả đề tài : </label> <textarea name="gt"  cols="45" rows="10"">'+topic[0].description+'</textarea> <br>');
+    $(form).append('<button class="btn btn-danger right" style="margin-left: 15px" id="cancel">Hủy</button>');
+    $(form).append('<button class="btn btn-danger right" style="margin-left: 15px" type="button" onclick="changeTopic()"  id="dk">Đăng ký</button>');
     $('body').append(form);
 }
 

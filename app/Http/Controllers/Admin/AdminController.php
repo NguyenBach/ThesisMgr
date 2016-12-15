@@ -13,16 +13,23 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\TeacherController;
 use App\Http\Model\Course;
 use App\Http\Model\Student;
+use App\Http\Model\StudentFile;
+use App\Http\Model\Teacher;
+use App\Http\Model\Topic;
 use App\Http\Model\TrainingProgram;
 use App\Http\Model\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Schema;
 use PHPExcel_IOFactory;
+use PHPExcel;
 
 class AdminController extends Controller
 {
-    public function index(){
-        return 'adfsasdf';
-    }
+    /*
+     * Thêm giảng viên bằng excel
+     * Request excel kiểu file
+     * */
     public function addTeacherExcel(Request $request){
         $header = array (
             'Content-Type' => 'application/json; charset=UTF-8',
@@ -51,6 +58,10 @@ class AdminController extends Controller
         return response()->json($result,200,$header,JSON_UNESCAPED_UNICODE);
 
     }
+    /*
+     * Thêm học viên bằng excel
+     * Request excel kiểu file
+     * */
     public function addStudentExcel(Request $request){
         $header = array (
             'Content-Type' => 'application/json; charset=UTF-8',
@@ -84,6 +95,10 @@ class AdminController extends Controller
         return response()->json($result,200,$header,JSON_UNESCAPED_UNICODE);
 
     }
+    /*
+     * Thêm trạng thái đăng ký của học viên bằng excel
+     * Request excel kiểu file
+     * */
     public function addStudentStatusExcel(Request $request){
         $header = array (
             'Content-Type' => 'application/json; charset=UTF-8',
@@ -121,6 +136,73 @@ class AdminController extends Controller
         return response()->json($result,200,$header,JSON_UNESCAPED_UNICODE);
 
     }
+
+    /*
+     * export de tai
+     * */
+    public function toTopicExcel(){
+        $excel = new PHPExcel();
+        $excel->getProperties()->setTitle('Topic');
+        $sheet = $excel->getActiveSheet();
+        $sheet->setTitle('Topic');
+        $columns = Schema::getColumnListing('detai');
+        $currentRow = 1;
+        $currentColumn = 'A';
+        foreach ($columns as $column){
+            $currentCell = $currentColumn.$currentRow;
+            $sheet->setCellValue($currentCell,$column);
+            $currentColumn = chr(ord($currentColumn)+1);
+        }
+        $data = Topic::where('status',1)->get();
+        $currentRow = 2;
+        foreach ($data as $topic){
+            $sheet->setCellValue('A'.$currentRow,$topic->id);
+            $sheet->setCellValue('B'.$currentRow,$topic->name);
+            $sheet->setCellValue('C'.$currentRow,$topic->description);
+            $student = Student::where('studentCode',$topic->student)->first();
+            $sheet->setCellValue('D'.$currentRow,$student->fullname);
+            $teacher = Teacher::where('teacherCode',$topic->teacher)->first();
+            $sheet->setCellValue('E'.$currentRow,$teacher->fullName);
+            $currentRow++;
+        }
+        $objWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel5');
+        $path = storage_path('/excel/export.xls');
+        $objWriter->save($path);
+        return response()->download($path);
+    }
+
+    /*
+    * export ho so
+    * */
+    public function toFileAcceptExcel(){
+        $excel = new PHPExcel();
+        $excel->getProperties()->setTitle('File');
+        $sheet = $excel->getActiveSheet();
+        $sheet->setTitle('File');
+        $sheet->setCellValue('A1','Stt');
+        $sheet->setCellValue('B1','Student');
+        $sheet->setCellValue('C1','Topic');
+        $data = StudentFile::where('status','Chấp nhận')->get();
+        $currentRow = 2;
+        foreach ($data as $a){
+            $sheet->setCellValue('A'.$currentRow,$currentRow-1);
+            $student = Student::where('studentCode',$a->student)->first();
+            $sheet->setCellValue('B'.$currentRow,$student->fullname);
+            $topic = Topic::where('id',$a->topic)->first();
+            $sheet->setCellValue('C'.$currentRow,$topic->name);
+            $currentRow++;
+        }
+        $objWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel5');
+        $path = storage_path('/excel/exportfile.xls');
+        $objWriter->save($path);
+        return response()->download($path);
+    }
+
+    /*
+     * Thêm học viên vào database
+     * input: $student các thông tin của sinh viên gồm mã, tên,khóa học ,chương trình đào tạo,email,...
+     * output: $result true nếu add được false nếu ko
+     * */
     public function addStudentToDB($student){
         $studentCode = $student['studentCode'];
         $fullname = $student['fullname'];
@@ -174,5 +256,16 @@ class AdminController extends Controller
         }
         $result = true;
         return $result;
+    }
+
+    public function mail(){
+        $title = 'Hello';
+        $content='asdfasdfads';
+        Mail::send('activeMail', ['username' => $title, 'password' => $content], function ($message)
+        {
+            $message->from('myside@gmail.com', 'Christian Nwamba');
+            $message->to('bachnq214@gmail.com');
+        });
+
     }
 }

@@ -19,6 +19,10 @@ use App\Http\Model\Teacher;
 
 class GuestController extends Controller
 {
+    /*
+     * Lấy tất cả các Đơn vị của giảng viên
+     * trả về 1 mảng json
+     * */
     public function getAllUnit(){
         $header = array (
             'Content-Type' => 'application/json; charset=UTF-8',
@@ -39,6 +43,10 @@ class GuestController extends Controller
         }
         return response()->json($facultyArray,200,$header,JSON_UNESCAPED_UNICODE);
     }
+    /*
+    * Lấy tất cả các lĩnh vực của giảng viên
+    * trả về 1 mảng json
+    * */
     public function getAllField(){
         $header = array (
             'Content-Type' => 'application/json; charset=UTF-8',

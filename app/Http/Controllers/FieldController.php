@@ -14,6 +14,10 @@ use Illuminate\Http\Request;
 
 class FieldController extends Controller
 {
+    /*
+    * Lấy các lĩnh vực nghiên cứu của giảng viên theo id
+     * input $id mã lĩnh vực
+    * */
     public function getFieldById($id){
         $header = array (
             'Content-Type' => 'application/json; charset=UTF-8',
@@ -23,7 +27,10 @@ class FieldController extends Controller
 
         return response()->json($field,200,$header,JSON_UNESCAPED_UNICODE);
     }
-
+    /*
+    * Thêm lĩnh vực
+    * input: $request có các trường id,tên, giới thiệu
+    * */
     public function addField(Request $request){
         $header = array (
             'Content-Type' => 'application/json; charset=UTF-8',
@@ -51,7 +58,9 @@ class FieldController extends Controller
             return response()->json(['result'=>false],200,$header,JSON_UNESCAPED_UNICODE);
         }
     }
-
+    /*
+        * xóa lĩnh vực
+        * */
     public function delete(Request $request){
         $header = array (
             'Content-Type' => 'application/json; charset=UTF-8',

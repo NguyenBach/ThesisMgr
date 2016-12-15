@@ -15,7 +15,10 @@ use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
-
+    /*
+    * Login
+    * trả về json login:true or false
+    * */
     public function checkLogin(Request $request, $userName, $password)
     {
         $users = User::where('username', $userName)->get();
@@ -36,6 +39,9 @@ class LoginController extends Controller
         }
 
     }
+    /*
+    * logout
+    * */
 
     public function logout(Request $request){
         $request->session()->clear();
@@ -43,7 +49,9 @@ class LoginController extends Controller
         return response()->view('TestView');
     }
 
-
+    /*
+    * Thay đổi password
+    * */
     public function changePassword(Request $request){
         $header = array (
             'Content-Type' => 'application/json; charset=UTF-8',

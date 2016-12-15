@@ -162,6 +162,9 @@ Route::get('/teacherfield/{id}',"TeacherController@getTeacherField");
 Route::post('/addteacherfield','TeacherController@addTeacherField');
 
 Route::get('/studentfile/{id}','FileController@getFileByStudentId');
+Route::get('/file','FileController@getAllFile');
+Route::post('/nophoso','FileController@nopHoSo');
+Route::post('/changefilestatus','FileController@changeStatus');
 
 Route::post('/addfield','FieldController@addField');
 Route::post('/deletefield','FieldController@delete');
@@ -170,3 +173,9 @@ Route::post('/changestatus','StudentController@changeStatus');
 
 Route::get('/currentthesis','ThesisController@getCurrentThesis');
 Route::post('/addcurrentthesis','ThesisController@addCurrentThesis');
+
+Route::get('/toexcel','Admin\AdminController@toTopicExcel');
+Route::get('/downloadfileexcel','Admin\AdminController@toFileAcceptExcel');
+Route::post('/changetopic','TopicController@changeTopic');
+Route::post('/deletetopic','TopicController@deleteTopic');
+Route::get('/mail','Admin\AdminController@mail');

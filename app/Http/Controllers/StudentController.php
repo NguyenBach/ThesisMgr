@@ -19,6 +19,10 @@ use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
+    /*
+    * Lấy tất cả các sinh viên
+    * trả về 1 mảng json
+    * */
     public function getAllStudent(){
         $header = array (
             'Content-Type' => 'application/json; charset=UTF-8',
@@ -27,6 +31,10 @@ class StudentController extends Controller
         $returnArray = Student::all();
         return response()->json($returnArray,200,$header,JSON_UNESCAPED_UNICODE);
     }
+    /*
+    * Lấy sinh viên theo id
+    * trả về 1 mảng json
+    * */
     public function getStudentById($id){
         $header = array (
             'Content-Type' => 'application/json; charset=UTF-8',
@@ -35,6 +43,9 @@ class StudentController extends Controller
         $returnArray = Student::where('studentCode',$id)->first();
         return response()->json($returnArray,200,$header,JSON_UNESCAPED_UNICODE);
     }
+    /*
+    *thêm sinh viên
+    * */
     public function addStudent(Request $request){
         $this->validate($request,[
            'ma'=>'required',
@@ -89,6 +100,9 @@ class StudentController extends Controller
         }
         return response()->json(['result'=>$result]);
     }
+    /*
+    * xóa sinh viên
+    * */
     public function delete(Request $request){
         $this->validate($request,[
             'ma'=>'required'
@@ -112,7 +126,9 @@ class StudentController extends Controller
         if(isset($del)) $del->delete();
         return response()->json(['result'=>true]);
     }
-
+    /*
+    * thay đổi trạng thái đăng ký khóa luận của sinh viên
+    * */
     public function changeStatus(Request $request){
         $this->validate($request,[
             'id'=>'required',
@@ -128,6 +144,9 @@ class StudentController extends Controller
         $result = $student->save();
         return response()->json(['result'=>$result]);
     }
+    /*
+    * thay đổi avatar
+    * */
     public function changeAvatar(Request $request){
         $this->validate($request, [
             'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',

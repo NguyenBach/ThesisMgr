@@ -16,6 +16,10 @@ use Illuminate\Http\Request;
 
 class ProgramController extends Controller
 {
+    /*
+    * Lấy tất cả các khóa học
+    * trả về 1 mảng json
+    * */
     public function getAllCourse(){
         $header = array (
             'Content-Type' => 'application/json; charset=UTF-8',
@@ -24,6 +28,10 @@ class ProgramController extends Controller
         $returnArray = Course::all();
         return response()->json($returnArray,200,$header,JSON_UNESCAPED_UNICODE);
     }
+    /*
+    * Lấy tất cả các chương trình đào tạo
+    * trả về 1 mảng json
+    * */
     public function getAllTrain(){
         $header = array (
             'Content-Type' => 'application/json; charset=UTF-8',
@@ -32,6 +40,11 @@ class ProgramController extends Controller
         $returnArray = TrainingProgram::all();
         return response()->json($returnArray,200,$header,JSON_UNESCAPED_UNICODE);
     }
+    /*
+    * Lấy khóa học hay chương trình đào tạo bằng id
+    * Input: $type 'course' hoặc 'train', $id
+    * trả về 1 mảng json
+    * */
     public function getById($type,$id){
         $header = array (
             'Content-Type' => 'application/json; charset=UTF-8',
@@ -47,6 +60,9 @@ class ProgramController extends Controller
         }
 
     }
+    /*
+    * Thêm Khóa học
+    * */
     public function addCourse(Request $request){
         $this->validate($request,[
             'ma'=>'required',
@@ -64,6 +80,9 @@ class ProgramController extends Controller
             return response()->json(['result'=>'true']);
         }
     }
+    /*
+    *Thêm chương trình đòa tạo
+    * */
     public function addProgram(Request $request){
         $this->validate($request,[
             'ma'=>'required',
@@ -80,7 +99,11 @@ class ProgramController extends Controller
         }else{
             return response()->json(['result'=>'true']);
         }
+
     }
+    /*
+    * Xóa khóa học hoặc chương trình đào tạo theo id
+    * */
     public function delete(Request $request){
         $this->validate($request,[
            'ma'=>'required',
